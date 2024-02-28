@@ -107,5 +107,5 @@ void loop()
     {
         Serial.print(cells[i]);
     }
-    Serial.println(" ")
+    Serial.println(" ");
 }
