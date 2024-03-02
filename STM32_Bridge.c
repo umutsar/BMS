@@ -123,10 +123,10 @@ int main(void)
   {
 	  HAL_Delay(1000);
 	  // BMS'E GONDER
-	  HAL_UART_Transmit(&huart1, serialData2, sizeof(serialData2), 1000);
+	  HAL_UART_Transmit(&huart2, serialData2, sizeof(serialData2), 1000);
 
 	  // BMS'TEN DONEN CEVABI AL
-	  HAL_UART_Receive(&huart1, receivedData, sizeof(receivedData), 1000);
+	  HAL_UART_Receive(&huart2, receivedData, sizeof(receivedData), 1000);
 
 	  HAL_Delay(50);
 
@@ -146,9 +146,6 @@ int main(void)
 	  for(int i = 0; i < 40; i++) {
 		  arduinoTransmit[i + 6] = receivedData[i + 3];
 	  }
-	  
-	  arduinoTransmit[7] = receivedData[4];
-	  arduinoTransmit[8] = receivedData[5];
 
 	  // MAX VOlTAGE
 	  arduinoTransmit[46] = receivedData[127];
@@ -183,13 +180,15 @@ int main(void)
 	  arduinoTransmit[60] = receivedData[179];
 	  arduinoTransmit[61] = receivedData[180];
 
+
 	  // MIN VOLTAGE
 	  arduinoTransmit[62] = receivedData[131];
 	  arduinoTransmit[63] = receivedData[132];
 
 
 	  // ARDUINO'YA GONDER
-	  HAL_UART_Transmit(&huart2, receivedData, sizeof(receivedData), 1000);
+	  HAL_UART_Transmit(&huart1, arduinoTransmit, sizeof(arduinoTransmit), 1000);
+
 
     /* USER CODE END WHILE */
 
