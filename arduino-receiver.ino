@@ -1,5 +1,6 @@
 
 
+
 byte dataUart[64];
 uint16_t cells[20];
 uint16_t sumVoltage, soc, powerWatt, cellsVoltage[20], maxVPosition, minVPosition, differantiePressure,
@@ -9,6 +10,7 @@ int count = 0;
 void setup()
 {
     Serial.begin(9600);
+    Serial1.begin(9600);
 }
 
 void loop()
@@ -19,12 +21,20 @@ void loop()
     }
 
     count = 0;
-    delay(1000);
+    delay(1200);
 
     for (int i = 0; i < 64; i++)
     {
-        dataUart[i] = Serial.read();
+        dataUart[i] = Serial1.read();
     }
+
+    /* for(int i = 0; i < 64; i++) {
+      Serial.print(dataUart[i]);
+      Serial.print(" ");
+    } 
+
+    Serial.println(""); */
+
 
     sumVoltage = (dataUart[0] * 256 + dataUart[1]) / 10;
     soc = (dataUart[2] * 256 + dataUart[3]) / 10;
@@ -32,22 +42,22 @@ void loop()
     maxVPosition = dataUart[48];
     minVPosition = dataUart[49];
     differantiePressure = dataUart[50];
-    maxTemp = dataUart[55];
-    minTemp = dataUart[57];
-    meanTemp = dataUart[59];
+    maxTemp = dataUart[55] - 40;
+    minTemp = dataUart[57] - 40;
+    meanTemp = dataUart[59] - 40;
     current = (dataUart[4] * 256 + dataUart[5]) / 63;
     maxVoltage = (dataUart[46] * 256 + dataUart[47]) / 100;
     minVoltage = (dataUart[62] * 256 + dataUart[63]) / 100;
 
     for (int i = 0; i < 20; i++)
     {
-        cells[i] = (dataUart[count + 7] * 256 + dataUart[count + 8]) / 100;
+        cells[i] = (dataUart[count + 6] * 256 + dataUart[count + 7]);
         count += 2;
     }
 
     for (int i = 0; i < 4; i++)
     {
-        temps[i] = dataUart[i + 51];
+        temps[i] = dataUart[i + 51] - 40;
     }
 
     Serial.print("Sum Voltage: ");
