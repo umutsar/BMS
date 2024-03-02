@@ -5,4 +5,4 @@ Source: Battery Management System Device
 
 Bridge: STM32F103C8T6
 
-Converter: Arduino Uno
+Converter: Arduino Mega
